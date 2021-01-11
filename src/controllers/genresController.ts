@@ -1,8 +1,8 @@
-import { getRepository } from 'typeorm';
+import { getConnection } from 'typeorm';
 import { Request, Response } from 'express';
-import { Genre } from '../entity/Genre';
+import { Genre } from '../entities/Genre';
 
-const genresRepository = getRepository(Genre);
+const genresRepository = getConnection().getRepository(Genre);
 
 export const getGenres = async (request: Request, response: Response) : Promise<any> => {
 	
@@ -17,7 +17,7 @@ export const getGenres = async (request: Request, response: Response) : Promise<
 	return response.status(500).send({error: 'internal error please send this to a developer'});
 };
 
-export const postGenre = async (request: Request, response: Response) : Promise<any> => {
+export const postGenre = async (request: Request, response: Response) : Promise<Response> => {
 	const { name } = request.body;
 	
 	const genreExists = await genresRepository.find({where: { name: name }});

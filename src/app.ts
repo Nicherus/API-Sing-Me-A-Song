@@ -11,7 +11,7 @@ createConnection({
 	'synchronize': true,
 	'logging': false,
 	'entities': [
-		'src/entity/**/*.ts'
+		'src/entities/**/*.ts'
 	],
 	'migrations': [
 		'src/migration/**/*.ts'
