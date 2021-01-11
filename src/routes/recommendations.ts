@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { getRecommendations, postRecommendation, upvoteRecommendation, downvoteRecommendation } from '../controllers/recommendationsController';
-import { mockMiddleware, postRecommendationMiddleware, upvoteDownvoteRecommendationMiddleware } from '../middlewares/recommendationsMiddlewares';
+import { getRecommendations, postRecommendation, upvoteRecommendation, downvoteRecommendation, getRecommendationsRandom, getRecommendationsRandomByGenre } from '../controllers/recommendationsController';
+import { postRecommendationMiddleware, checkIdMiddleware } from '../middlewares/recommendationsMiddlewares';
 
-const genres = Router();
+const recommendations = Router();
 
-genres.post('/', postRecommendationMiddleware, postRecommendation);
-genres.get('/', getRecommendations);
-genres.post('/:id/upvote', upvoteDownvoteRecommendationMiddleware, upvoteRecommendation);
-genres.post('/:id/downvote', upvoteDownvoteRecommendationMiddleware, downvoteRecommendation);
-genres.get('/random', mockMiddleware);
-genres.get('/genres/:id/random', mockMiddleware);
+recommendations.post('/', postRecommendationMiddleware, postRecommendation);
+recommendations.get('/', getRecommendations);
+recommendations.post('/:id/upvote', checkIdMiddleware, upvoteRecommendation);
+recommendations.post('/:id/downvote', checkIdMiddleware, downvoteRecommendation);
+recommendations.get('/random', getRecommendationsRandom);
+recommendations.get('/genres/:id/random', checkIdMiddleware, getRecommendationsRandomByGenre);
 
-export default genres;
+export default recommendations;

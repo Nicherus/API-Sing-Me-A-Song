@@ -14,18 +14,14 @@ export const postRecommendationMiddleware = async (request: Request, response: R
 	next();
 };
 
-export const upvoteDownvoteRecommendationMiddleware = async (request: Request, response: Response, next: NextFunction): Promise<Response> => {
+export const checkIdMiddleware = async (request: Request, response: Response, next: NextFunction): Promise<Response> => {
 	const id = request.params.id;
 	
-	if(!id) return response.status(400).send({error: 'Send name, genres and youtube link'});
+	if(!id) return response.status(400).send({error: 'Send a valid id'});
 
 	const failValidation = validateUpvoteDownvote(id);
 	
-	if(failValidation) return response.status(400).send({error: 'Please, check the data you are sending'});
+	if(failValidation) return response.status(400).send({error: 'Please, send a valid id'});
 
-	next();
-};
-
-export const mockMiddleware = async (request: Request, response: Response, next: NextFunction): Promise<NextFunction | void> => {
 	next();
 };

@@ -76,6 +76,67 @@ export const getRecommendations = async (request: Request, response: Response) :
 	return response.status(500).send({error: 'internal error please send this to a developer'});
 };
 
+export const getRecommendationsRandom = async (request: Request, response: Response) : Promise<Response> => {
+
+	const recommendations = await recommendationsRepository.find({ relations: ['genres'] });
+	if(!recommendations) return response.status(404).send({error: 'no songs registered.'});
+
+	let recommendationsFiltered = [];
+	let isArrayEmpty = false;
+
+	const random = Math.floor(Math.random() * 100) + 1;
+	if(random > 70){
+		recommendationsFiltered = recommendations.filter((item) => item.score > -5 && item.score <= 10);
+		if(!recommendationsFiltered.length) isArrayEmpty = true;
+	} else if(random <= 70){
+		recommendationsFiltered = recommendations.filter((item) => item.score > 10);
+		if(!recommendationsFiltered.length) isArrayEmpty = true;
+	}
+	
+	let randomRecommendation = {};
+	if(isArrayEmpty){
+		randomRecommendation = recommendations[Math.floor(Math.random() * recommendations.length)];
+	} else{
+		randomRecommendation = recommendationsFiltered[Math.floor(Math.random() * recommendationsFiltered.length)];
+	}
+	
+	if(randomRecommendation) return response.status(201).json(randomRecommendation);
+
+	return response.status(500).send({error: 'internal error please send this to a developer'});
+};
+
+
+export const getRecommendationsRandomByGenre = async (request: Request, response: Response) : Promise<Response> => {
+	const genreId = request.params.id;
+	const recommendations = await recommendationsRepository.find({ relations: ['genres'] });
+	if(!recommendations) return response.status(404).send({error: 'no songs registered.'});
+
+	let recommendationsFiltered = [];
+	let isArrayEmpty = false;
+
+	const random = Math.floor(Math.random() * 100) + 1;
+	if(random > 70){
+		recommendationsFiltered = recommendations.filter((item) => item.score > -5 && item.score <= 10 && item.genres.find((item) => item.id == genreId));
+		
+		if(!recommendationsFiltered.length) isArrayEmpty = true;
+	} else if(random <= 70){
+		recommendationsFiltered = recommendations.filter((item) => item.score > 10 && item.genres.find((item) => item.id == genreId));
+		
+		if(!recommendationsFiltered.length) isArrayEmpty = true;
+	}
+	
+	let randomRecommendation = {};
+	if(isArrayEmpty){
+		randomRecommendation = recommendations[Math.floor(Math.random() * recommendations.length)];
+	} else{
+		randomRecommendation = recommendationsFiltered[Math.floor(Math.random() * recommendationsFiltered.length)];
+	}
+	
+	if(randomRecommendation) return response.status(201).json(randomRecommendation);
+	
+	return response.status(500).send({error: 'internal error please send this to a developer'});
+};
+
 export const deleteRecommendation = async (id: string) : Promise<boolean> => {
 	try{
 		await recommendationsRepository.delete(id);
