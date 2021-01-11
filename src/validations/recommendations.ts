@@ -22,3 +22,20 @@ export const validateRecommendation = (
 	
 	return !!validation.error;
 };
+
+export const validateUpvoteDownvote = (
+	id: string,
+) : boolean => {
+
+	const recommendation = joi.object({
+		id: joi.string().required(),
+	});
+
+	const data = {
+		id,
+	};
+
+	const validation = recommendation.validate(data);
+	
+	return !!validation.error;
+};
