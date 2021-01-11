@@ -11,18 +11,23 @@ createConnection({
 	'synchronize': true,
 	'logging': false,
 	'entities': [
-		'src/entities/**/*.ts'
+		'src/entities/**/*.ts',
 	],
 	'migrations': [
-		'src/migration/**/*.ts'
+		'src/migration/**/*.ts',
 	],
 	'subscribers': [
-		'src/subscriber/**/*.ts'
+		'src/subscriber/**/*.ts',
 	],
+	'extra': {
+		ssl: {
+			rejectUnauthorized: false,
+		},
+	},
 	'cli': {
 		'entitiesDir': 'src/entity',
 		'migrationsDir': 'src/migration',
-		'subscribersDir': 'src/subscriber'
+		'subscribersDir': 'src/subscriber',
 	}
 }).then(async () => {
 	console.log(('Connected to the database!'));

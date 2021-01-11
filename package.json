@@ -36,6 +36,7 @@
     "postgres": "^1.0.2",
     "reflect-metadata": "^0.1.13",
     "string-strip-html": "^6.3.0",
+    "ts-node": "^9.1.1",
     "typeorm": "^0.2.29",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.5"

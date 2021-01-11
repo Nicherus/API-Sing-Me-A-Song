@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, Generated, BaseEntity, ManyToMany, JoinTable} from 'typeorm';
+import {Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToMany, JoinTable} from 'typeorm';
 import { Genre } from './Genre';
 
 @Entity()
@@ -15,7 +15,7 @@ export class Recommendation extends BaseEntity {
     genres: Genre[];
 
     @Column()
-    youtubeLink: string;
+    youtube_link: string;
 
     @Column()
     score: number;

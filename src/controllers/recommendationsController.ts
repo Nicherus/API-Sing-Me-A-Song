@@ -23,7 +23,7 @@ export const postRecommendation = async (request: Request, response: Response) :
 	const recommendation = new Recommendation();
 	recommendation.name = name;
 	recommendation.genres = genresEntities;
-	recommendation.youtubeLink = youtubeLink;
+	recommendation.youtube_link = youtubeLink;
 	recommendation.score = 0;
 	const saveRecommendation = await recommendation.save();
 	
